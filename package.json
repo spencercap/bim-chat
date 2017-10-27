@@ -1,0 +1,24 @@
+{
+  "name": "bim-chat",
+  "version": "1.0.0",
+  "description": "simple chatroom",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spencercap/bim-chat.git"
+  },
+  "author": "Spencer Cappiello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spencercap/bim-chat/issues"
+  },
+  "homepage": "https://github.com/spencercap/bim-chat#readme"
+}
