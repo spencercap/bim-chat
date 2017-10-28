@@ -17,6 +17,13 @@ server.listen(PORT, function() {
   console.log('server running on ' + PORT);
 }); // start the server
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
+
 
 // routes
 app.get('/', function (req, res) {
