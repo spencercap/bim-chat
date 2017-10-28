@@ -1,16 +1,20 @@
 var express = require('express'),
     app = express(),
     server = require('http').Server(app),
-    io = require('socket.io')(server),
+    socketIO = require('socket.io'),
     osc = require('node-osc');
+const io = socketIO(server);
+const PORT = process.env.PORT || 3000;
 // var oscClient = new osc.Client('127.0.0.1', 3333);
 // var oscServer;
+
+var users = 0;
 
 
 // server
 app.use(express.static('public')); // make public dir files available
-server.listen(process.env.PORT || 3000, function() {
-  console.log('server running on ' + process.env.PORT + ' or http://localhost:3000/');
+server.listen(PORT, function() {
+  console.log('server running on ' + PORT);
 }); // start the server
 
 
@@ -27,6 +31,16 @@ app.get('/hello', function (req, res) {
 
 // Socket.io
 io.on('connection', function (client) {
+  users++;
+  console.log(users);
+
+  console.log('connection from: '+ client.id);
+  // oscClient.send('/status', client.id + ' connected');
+
+  client.on('disconnect', function() {
+    users--;
+    console.log(users);
+  });
 
   client.on('message', function(data) {
     console.log(data);
@@ -34,7 +48,6 @@ io.on('connection', function (client) {
     // oscClient.send('/message', data);           // send to osc host@port
   });
 
-  console.log('connection from: '+ client.id);
-  // oscClient.send('/status', client.id + ' connected');
+
 
 });
