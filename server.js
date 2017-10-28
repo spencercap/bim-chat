@@ -3,7 +3,7 @@ var express = require('express'),
     server = require('http').Server(app),
     io = require('socket.io')(server),
     osc = require('node-osc');
-var oscClient = new osc.Client('127.0.0.1', 3333);
+// var oscClient = new osc.Client('127.0.0.1', 3333);
 // var oscServer;
 
 
@@ -31,10 +31,10 @@ io.on('connection', function (client) {
   client.on('message', function(data) {
     console.log(data);
     io.sockets.emit('response', 'hello world'); // send to client socket
-    oscClient.send('/message', data);           // send to osc host@port
+    // oscClient.send('/message', data);           // send to osc host@port
   });
 
   console.log('connection from: '+ client.id);
-  oscClient.send('/status', client.id + ' connected');
+  // oscClient.send('/status', client.id + ' connected');
 
 });
