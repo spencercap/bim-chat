@@ -3,13 +3,27 @@
     <head>
         <title>osc.js Web Sockets</title>
         <meta charset="UTF-8" />
-        <script src="node_modules/osc/dist/osc-browser.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
       <div>hello world</div>
 
+      <button onclick="socket.emit('message', '/foobar');">Send OSC message</button>
+
       <script>
-        
+        var socket = io.connect(window.location.origin);
+
+        socket.on('connect', function() {
+            //  console.log('connected to server socket');
+
+            // initialize chats
+            console.log(socket.id); // custome color messages
+         });
+
+        socket.on('response', function (data) {
+          console.log(data);
+        });
+
       </script>
     </body>
 </html>

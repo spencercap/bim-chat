@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.16.2",
-    "osc": "^2.2.0"
+    "osc-web": "git+https://github.com/automata/osc-web.git",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {},
   "scripts": {
