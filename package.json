@@ -6,7 +6,7 @@
   "dependencies": {
     "express": "^4.16.2",
     "osc-web": "git+https://github.com/automata/osc-web.git",
-    "socket.io": "^2.0.4"
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {},
   "scripts": {

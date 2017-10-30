@@ -1,0 +1,133 @@
+:root {
+  --user-color: #1cd67e;
+  --send-button-size: 2.5rem;
+}
+
+html {
+  /*background: var(--user-color);*/
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+}
+
+button {border:0; outline:none;}
+
+.sendButton {
+  width: var(--send-button-size);
+  height: var(--send-button-size);
+  display: inline-block;
+  /*margin-left: 1rem;*/
+
+  margin: 0 0.5rem;
+  padding: 0;
+
+  border-radius: 50%;
+  /*background: var(--user-color);*/
+  background-color: var(--user-color);
+
+  background-image: url('../imgs/sendButton.svg');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/*.sendButton:active {
+  background-color: var(--user-color);
+}*/
+
+.sendButton:disabled {
+  background-color: #d2d2d2 !important;
+}
+
+.sendButtonImg {
+  background-image: url('../imgs/sendButton.svg');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.inputMessage {
+  /*width: 100%;*/
+  display: inline-block;
+  background: #fff;
+
+  border: 1px #e6e6e6 solid;
+
+  font-size: 1rem;
+  /*height: 1rem;*/
+
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  transition-duration: 300ms;
+
+  max-height: 100px;
+  overflow: scroll;
+  outline:none;
+}
+
+.inputMessage:active, .inputMessage:focus {
+  border-color: var(--user-color);
+}
+
+.message {
+  background: var(--user-color);
+  color: #fff;
+  padding: 0.5em;
+  margin: 0.5em 0;
+}
+
+.messagesContainer {
+  margin: 1em;
+}
+
+form {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  /*bottom: 0;*/
+  top: calc(100vh - 56px);
+  width: calc( 100% - 1rem );
+  margin: 0.5rem;
+}
+
+.textarea-container {
+  position: relative;
+  width: calc( 100% - var(--send-button-size) - 1rem );
+}
+
+textarea::placeholder {
+  color: #d2d2d2;
+}
+
+input, textarea, .textarea-size {
+  min-height: 26px;
+  max-height: 100px;
+  font-family: sans-serif;
+  /*font-size: 1rem;*/
+  box-sizing: border-box;
+  padding: 0.6rem 0.2rem;
+  border: 1px solid;
+  overflow: hidden;
+  width: 100%;
+}
+
+input, textarea {
+  height: 100%;
+  position: absolute;
+  resize:none;
+  white-space: normal;
+  border-radius: 0;
+}
+
+.textarea-size {
+  visibility: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
