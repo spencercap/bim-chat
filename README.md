@@ -13,7 +13,7 @@ the server converts socket.io messages into OSC messages, which can be picked up
 * node.js
 * express
 * socket.io
-* [web-osc] (https://github.com/automata/osc-web)
+* [web-osc](https://github.com/automata/osc-web)
 
 ## Install
 
