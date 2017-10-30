@@ -12,7 +12,7 @@ var users = 0;
 
 // express server
 server.listen(PORT, function() {
-  console.log('server running on ' + PORT);
+  console.log('server running on port: ' + PORT);
 }); // start the server
 app.use(express.static('public'));
 
@@ -42,7 +42,8 @@ io.on('connection', function (client) {
 
   client.on('message', function(data) {
     console.log(data);
-    io.sockets.emit('response', 'hello world'); // send to client socket
+    // io.sockets.emit('response', 'hello world'); // send to client socket
+    io.sockets.emit('post', data); // send to client socket
     oscClient.send('/chat/message', data);           // send to osc host@port
   });
 

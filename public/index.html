@@ -19,7 +19,7 @@
 
 
 
-      <form onsubmit="post();return false;">
+      <form onsubmit="submitMessage();return false;">
         <div class="textarea-container">
           <textarea autofocus class="inputMessage" placeholder="type something"></textarea>
           <div class="textarea-size"></div>
@@ -53,13 +53,17 @@
           console.log(data);
         });
 
+        socket.on('post', function (data) {
+          post(data);
+        });
 
 
-        // submit for on enter key
+
+        // submit message on enter key
         inputMessage.addEventListener('keypress', function(e) {
           if (e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
-            post();
+            submitMessage();
             return false;
           }
         });
@@ -80,17 +84,23 @@
 
 
 
-        // post form / submit message
-        function post() {
-
+        // submit the form message
+        function submitMessage() {
           // quick validation
           if ( inputMessage.value != '' ) {
-            let message = document.createElement('div');
-            message.className = 'message';
-            message.innerHTML = inputMessage.value;
-            messages.appendChild(message);
-            inputMessage.value = '';
+            socket.emit('message', inputMessage.value);
           }
+        }
+
+
+
+        // post message to container 
+        function post(data) {
+          let message = document.createElement('div');
+          message.className = 'message';
+          message.innerHTML = data;
+          messages.appendChild(message);
+          inputMessage.value = '';
 
           // resets
           autoSize();
