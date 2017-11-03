@@ -21,8 +21,9 @@
 
       <form onsubmit="submitMessage();return false;">
         <div class="textarea-container">
-          <textarea autofocus class="inputMessage" placeholder="type something"></textarea>
-          <div class="textarea-size"></div>
+          <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
+          <!-- <textarea autofocus class="inputMessage" placeholder="type something"></textarea> -->
+          <!-- <div class="textarea-size"></div> -->
         </div>
         <button type="submit" class='sendButton' disabled></button>
       </form>
@@ -59,71 +60,106 @@
 
 
 
-        // submit message on enter key
-        inputMessage.addEventListener('keypress', function(e) {
-          if (e.keyCode == 13 && !e.shiftKey) {
-            e.preventDefault();
-            submitMessage();
-            return false;
-          }
-        });
-
-
-
-        // changes the send button color/state
-        function checkSendState() {
-          if (inputMessage.value == '') {
-            sendButton.disabled = true;
-          }
-          else sendButton.disabled = false;
-        }
-        // listener for send button color/state
-        inputMessage.addEventListener('input', function(e) {
-          checkSendState();
-        });
-
-
-
-        // submit the form message
-        function submitMessage() {
-          // quick validation
-          if ( inputMessage.value != '' ) {
-            socket.emit('message', inputMessage.value);
-          }
-        }
-
-
-
-        // post message to container 
-        function post(data) {
-          let message = document.createElement('div');
-          message.className = 'message';
-          message.innerHTML = data;
-          messages.appendChild(message);
-          inputMessage.value = '';
-
-          // resets
-          autoSize();
-          checkSendState();
-          input.focus();
-        }
-
-
-
         // text container magic
-        var textContainer, textareaSize, input;
+        var textContainer, textareaSize;
+        var tempH;
+        var TALineHeight;
+        var post;
         var autoSize = function () {
-          textareaSize.innerHTML = input.value + '\n';
+          // textareaSize.innerHTML = textarea.value + '\n';
+          if (textarea.value == "") {
+            textarea.rows = 1;
+          }
+          else {
+            tempH = textarea.scrollHeight / TALineHeight; // simple math dividing height of text area by it's line height defined in css as 20px to get number of rows typed
+            console.log(tempH);
+
+            if (tempH == 2) {
+              textarea.rows = 2;
+            }
+            else if (tempH >= 3 ) {
+              textarea.rows = 3;
+            }
+            else {
+              textarea.rows = 1; // default to 1 line height
+            }
+          }
+
         };
         document.addEventListener('DOMContentLoaded', function() {
           textContainer = document.querySelector('.textarea-container');
-          textareaSize = textContainer.querySelector('.textarea-size');
-          input = textContainer.querySelector('textarea');
+          // textareaSize = textContainer.querySelector('.textarea-size');
+          // textarea = textContainer.querySelector('textarea');
+          textarea = textContainer.querySelector('.newTA');
+          TALineHeight = parseInt( window.getComputedStyle(textarea)["line-height"] );
 
+
+
+
+
+          // submit message on enter key
+          textarea.addEventListener('keypress', function(e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+              e.preventDefault();
+              submitMessage();
+              return false;
+            }
+          });
+
+
+
+          // changes the send button color/state
+          function checkSendState() {
+            if (textarea.value == '') {
+              sendButton.disabled = true;
+              // textarea.rows = 1;
+            }
+            else sendButton.disabled = false;
+          }
+          // listener for send button color/state
+          textarea.addEventListener('input', function(e) {
+            checkSendState();
+          });
+
+
+
+          // submit the form message
+          function submitMessage() {
+            // quick validation
+            if ( textarea.value != '' ) {
+              socket.emit('message', textarea.value);
+            }
+          }
+
+
+
+          // post message to container
+          post = function (data) {
+            let message = document.createElement('div');
+            message.className = 'message wordwrap';
+            message.innerHTML = data;
+            messages.appendChild(message);
+            textarea.value = '';
+            textarea.rows = 1;
+
+            // resets
+            autoSize();
+            checkSendState();
+            textarea.focus();
+          }
+
+
+
+
+
+
+          // do once on start
           autoSize();
-          input.addEventListener('input', autoSize);
-          input.focus();
+          textarea.addEventListener('input', autoSize);
+          textarea.focus();
         });
+
+
 
 
 
