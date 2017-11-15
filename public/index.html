@@ -14,7 +14,7 @@
     <body>
 
       <div class="promptContainer">
-        <div class="prompt">will you be remembered by others when you die?</div>
+        <div class="prompt">?</div>
       </div>
 
       <div class="messagesContainer">
@@ -26,11 +26,14 @@
       <form class="textForm" action="" method="get">
         <div class="textarea-container">
           <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
-          <!-- <textarea autofocus class="inputMessage" placeholder="type something"></textarea> -->
-          <!-- <div class="textarea-size"></div> -->
         </div>
         <button type="button" class="sendButton" disabled></button>
       </form>
+
+      <div class="noYesContainer">
+        <button class="buttonNo">NO</button>
+        <button class="buttonYes">YES</button>
+      </div>
 
 
 
@@ -44,6 +47,10 @@
         var promptContainer = document.querySelector('.promptContainer');
         var prompt = document.querySelector('.prompt');
         var textForm = document.querySelector('.textForm');
+
+        var noYesContainer = document.querySelector('.noYesContainer');
+        var noButton = document.querySelector('.buttonNo');
+        var yesButton = document.querySelector('.buttonYes');
 
 
 
@@ -67,8 +74,16 @@
         });
 
         socket.on('prompt', function (data) {
-          console.log(data);
+          // console.log(data);
           changePrompt(data);
+        });
+
+        socket.on('noYesCount', function (data) {
+          console.log(data);
+        });
+
+        socket.on('inputMode', function (data) {
+          changeInputMode(data);
         });
 
 
@@ -174,11 +189,36 @@
 
 
 
+          // post message to container
+          changeInputMode = function (data) {
+
+            if ( data == 'noYes' ) {
+              textForm.style.visibility = 'hidden';
+              noYesContainer.style.visibility = 'visible';
+            }
+            else if ( data == 'text' ) {
+              textForm.style.visibility = 'visible';
+              noYesContainer.style.visibility = 'hidden';
+            }
+            else {
+              console.log('unknown input mode');
+            }
+
+            // resets
+            textarea.value = '';
+            textarea.rows = 1;
+            autoSize();
+            checkSendState();
+            textarea.focus();
+          }
+
+
+
           // change the prompt for all users
           changePrompt = function (data) {
 
             if ( data == '1' ) {
-              prompt.innerText = 'this is the first question';
+              prompt.innerText = 'will you be remembered by others when you die?';
             }
             else if ( data == '2' ) {
               prompt.innerText = 'this is the second question';
@@ -205,12 +245,23 @@
           });
 
 
+          noYesContainer.addEventListener('click', function(e) {
+            noButton.disabled = true;
+            yesButton.disabled = true;
+            socket.emit('noYes', e.toElement.className.substring(6));
+          });
+
+
 
           // do once on start
           autoSize();
           textarea.addEventListener('input', autoSize);
           textarea.focus();
         });
+
+
+
+
 
 
 

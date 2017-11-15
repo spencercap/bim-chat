@@ -10,6 +10,9 @@ var oscClient = new osc.Client('127.0.0.1', 3333);
 
 var users = 0;
 
+var currentPrompt = 1;
+var noYesCount = [0, 0]
+
 // express server
 server.listen(PORT, function() {
   console.log('server running on port: ' + PORT);
@@ -38,6 +41,8 @@ io.on('connection', function (client) {
   console.log('connection from: '+ client.id);
   oscClient.send('/status', client.id + ' connected');
 
+  io.sockets.emit('prompt', currentPrompt);          // trigger a prompt popup
+
 
 
   client.on('message', function(data) {
@@ -45,13 +50,33 @@ io.on('connection', function (client) {
     // io.sockets.emit('response', 'hello world'); // send to client socket
 
     if ( data.substring(0, 2) == '::' ) {
-      io.sockets.emit('prompt', data.substring(2));          // trigger a prompt popup
+      currentPrompt = data.substring(2);
+      if ( currentPrompt == 'noYes' ) {
+        io.sockets.emit('inputMode', currentPrompt);          // trigger a prompt popup or change input style
+      }
+      else {
+        io.sockets.emit('prompt', currentPrompt);          // trigger a prompt popup or change input style
+      }
     }
     else {
       io.sockets.emit('post', data);          // send to client socket
       oscClient.send('/chat/message', data);  // send to osc host@port
     }
 
+  });
+
+
+
+  client.on('noYes', function(data) {
+    if ( data == 'No' ) {
+      noYesCount[0]++;
+      io.sockets.emit('noYesCount', noYesCount);
+    }
+    else if ( data == 'Yes') {
+      noYesCount[1]++;
+      io.sockets.emit('noYesCount', noYesCount);
+    }
+    console.log(noYesCount);
   });
 
 

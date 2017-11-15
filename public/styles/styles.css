@@ -15,6 +15,10 @@ body {
   margin: 0;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 button {border:0; outline:none;}
 
 .sendButton {
@@ -102,6 +106,10 @@ form {
   margin: 0.5rem;
 }
 
+.textForm {
+  visibility: visible;
+}
+
 .textarea-container {
   position: relative;
   width: calc( 100% - var(--send-button-size) - 1rem );
@@ -177,4 +185,18 @@ textarea:active, textarea:focus {
   color: hotpink;
   padding: 2rem;
   font-size: 2.5rem;
+}
+
+.noYesContainer {
+  visibility: hidden;
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5em;
+}
+
+.noYesContainer>button {
+  height: 40px;
+  width: 100%;
+  border-radius: 2px;
+  margin: 0 0.5em;
 }
