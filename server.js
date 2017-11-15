@@ -54,6 +54,9 @@ io.on('connection', function (client) {
       if ( currentPrompt == 'noYes' ) {
         io.sockets.emit('inputMode', currentPrompt);          // trigger a prompt popup or change input style
       }
+      if ( currentPrompt == 'text' ) {
+        io.sockets.emit('inputMode', currentPrompt);          // trigger a prompt popup or change input style
+      }
       else {
         io.sockets.emit('prompt', currentPrompt);          // trigger a prompt popup or change input style
       }
