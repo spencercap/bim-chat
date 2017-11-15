@@ -43,8 +43,15 @@ io.on('connection', function (client) {
   client.on('message', function(data) {
     console.log(data);
     // io.sockets.emit('response', 'hello world'); // send to client socket
-    io.sockets.emit('post', data); // send to client socket
-    oscClient.send('/chat/message', data);           // send to osc host@port
+
+    if ( data.substring(0, 2) == '::' ) {
+      io.sockets.emit('prompt', data.substring(2));          // trigger a prompt popup
+    }
+    else {
+      io.sockets.emit('post', data);          // send to client socket
+      oscClient.send('/chat/message', data);  // send to osc host@port
+    }
+
   });
 
 

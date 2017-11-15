@@ -9,23 +9,27 @@
         <script src="/socket.io/socket.io.js"></script>
 
         <link rel="stylesheet" href="styles/styles.css"></style>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body>
-      <button onclick="socket.emit('message', '1');">Send OSC message</button>
+
+      <div class="promptContainer">
+        <div class="prompt">will you be remembered by others when you die?</div>
+      </div>
 
       <div class="messagesContainer">
-        <h1>messages</h1>
+        <!-- <h1>messages</h1> -->
       </div>
 
 
 
-      <form onsubmit="submitMessage();return false;">
+      <form class="textForm" action="" method="get">
         <div class="textarea-container">
           <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
           <!-- <textarea autofocus class="inputMessage" placeholder="type something"></textarea> -->
           <!-- <div class="textarea-size"></div> -->
         </div>
-        <button type="submit" class='sendButton' disabled></button>
+        <button type="button" class="sendButton" disabled></button>
       </form>
 
 
@@ -36,6 +40,10 @@
         var messages = document.querySelector('.messagesContainer'),
             inputMessage = document.querySelector('.inputMessage'),
             sendButton = document.querySelector('.sendButton');
+
+        var promptContainer = document.querySelector('.promptContainer');
+        var prompt = document.querySelector('.prompt');
+        var textForm = document.querySelector('.textForm');
 
 
 
@@ -58,6 +66,11 @@
           post(data);
         });
 
+        socket.on('prompt', function (data) {
+          console.log(data);
+          changePrompt(data);
+        });
+
 
 
         // text container magic
@@ -72,7 +85,7 @@
           }
           else {
             tempH = textarea.scrollHeight / TALineHeight; // simple math dividing height of text area by it's line height defined in css as 20px to get number of rows typed
-            console.log(tempH);
+            // console.log(tempH);
 
             if (tempH == 2) {
               textarea.rows = 2;
@@ -85,6 +98,9 @@
             }
           }
 
+          otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
+          messages.style.height = 'calc(100vh - ' + otherHeights + ')';
+
         };
         document.addEventListener('DOMContentLoaded', function() {
           textContainer = document.querySelector('.textarea-container');
@@ -94,6 +110,13 @@
           TALineHeight = parseInt( window.getComputedStyle(textarea)["line-height"] );
 
 
+
+          // fake form because submiting caused a weird reload
+          sendButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            submitMessage();
+            return false;
+          });
 
 
 
@@ -125,6 +148,7 @@
 
           // submit the form message
           function submitMessage() {
+            // e.preventDefault()
             // quick validation
             if ( textarea.value != '' ) {
               socket.emit('message', textarea.value);
@@ -150,6 +174,35 @@
 
 
 
+          // change the prompt for all users
+          changePrompt = function (data) {
+
+            if ( data == '1' ) {
+              prompt.innerText = 'this is the first question';
+            }
+            else if ( data == '2' ) {
+              prompt.innerText = 'this is the second question';
+            }
+            else if ( data == 'clear' ) {
+              messages.innerHTML = '';
+            }
+
+            // resets
+            textarea.value = '';
+            textarea.rows = 1;
+            autoSize();
+            checkSendState();
+            textarea.focus();
+          }
+
+
+
+          var otherHeights;
+          window.addEventListener('resize', function() {
+            autoSize();
+            // otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
+            // messages.style.height = 'calc(100vh - ' + otherHeights + ')';
+          });
 
 
 
@@ -158,6 +211,9 @@
           textarea.addEventListener('input', autoSize);
           textarea.focus();
         });
+
+
+
 
 
 

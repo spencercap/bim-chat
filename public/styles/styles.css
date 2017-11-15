@@ -1,11 +1,14 @@
 :root {
-  --user-color: #1cd67e;
+  --user-color: hotpink;
+  /*--user-color: #1cd67e;*/
   --send-button-size: 2.5rem;
 }
 
 html {
   /*background: var(--user-color);*/
   font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  background: #4d4d4d;
 }
 
 body {
@@ -76,11 +79,16 @@ button {border:0; outline:none;}
   background: var(--user-color);
   color: #fff;
   padding: 0.5em;
-  margin: 0.5em 0;
+  margin: 0.5em 1em;
 }
 
 .messagesContainer {
-  margin: 1em;
+  /*padding: 1em;*/
+  overflow-y: scroll;
+}
+
+.messagesContainer::-webkit-scrollbar {
+    display: none;
 }
 
 form {
@@ -159,4 +167,14 @@ textarea:active, textarea:focus {
   border-right: none;
   border-left: none;
   outline:none;
+
+  background: transparent;
+  color: #fff
+}
+
+.promptContainer {
+  background: #353535;
+  color: hotpink;
+  padding: 2rem;
+  font-size: 2.5rem;
 }
