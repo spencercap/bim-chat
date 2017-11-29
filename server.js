@@ -26,9 +26,14 @@ app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
 
-app.get('/hello', function (req, res) {
+app.get("/logs", function (req, res) {
   // other route
-  res.send('this is another page');
+  res.sendFile('logs.html', {'root': __dirname + '/public'});
+});
+
+app.get("/config", function (req, res) {
+  // other route
+  res.sendFile('config.html', {'root': __dirname + '/public'});
 });
 
 
@@ -79,7 +84,7 @@ io.on('connection', function (client) {
       noYesCount[1]++;
       io.sockets.emit('noYesCount', noYesCount);
     }
-    console.log(noYesCount);
+    console.log('no/yes count: ' + noYesCount);
   });
 
 

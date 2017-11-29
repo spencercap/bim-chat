@@ -30,7 +30,7 @@
         <button type="button" class="sendButton" disabled></button>
       </form>
 
-      <div class="noYesContainer">
+      <div class="noYesContainer hidden">
         <button class="buttonNo">NO</button>
         <button class="buttonYes">YES</button>
       </div>
@@ -79,7 +79,7 @@
         });
 
         socket.on('noYesCount', function (data) {
-          console.log(data);
+          console.log('no/yes count: ' + data);
 
           let message = document.createElement('div');
           message.className = 'message wordwrap';

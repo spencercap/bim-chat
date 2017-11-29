@@ -188,7 +188,7 @@ textarea:active, textarea:focus {
 }
 
 .noYesContainer {
-  visibility: hidden;
+  /*visibility: hidden;*/
   display: flex;
   justify-content: space-around;
   margin: 0.5em;
@@ -199,4 +199,8 @@ textarea:active, textarea:focus {
   width: 100%;
   border-radius: 2px;
   margin: 0 0.5em;
+}
+
+.hidden {
+  visibility: hidden;
 }
