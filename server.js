@@ -3,6 +3,11 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+// cli
+var sys = require('sys')
+var exec = require('child_process').exec;
+var child;
+
 var osc = require('node-osc');
 const PORT = process.env.PORT || 3000;
 var oscClient = new osc.Client('127.0.0.1', 3333);
@@ -11,7 +16,15 @@ var oscClient = new osc.Client('127.0.0.1', 3333);
 var users = 0;
 
 var currentPrompt = 1;
-var noYesCount = [0, 0]
+var noYesCount = [0, 0];
+
+
+// cli SAY
+var sys = require('sys')
+var exec = require('child_process').exec;
+function puts(error, stdout, stderr) {
+  // console.log('stdout');
+}
 
 // express server
 server.listen(PORT, function() {
@@ -69,6 +82,9 @@ io.on('connection', function (client) {
     else {
       io.sockets.emit('post', data);          // send to client socket
       oscClient.send('/chat/message', data);  // send to osc host@port
+
+      // cli say
+      exec('say "'+ data +'"', puts);
     }
 
   });
