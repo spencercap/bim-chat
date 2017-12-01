@@ -2,6 +2,7 @@ var express = require('express')
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+const PORT = process.env.PORT || 3000;
 
 // cli
 var sys = require('sys')
@@ -9,8 +10,9 @@ var exec = require('child_process').exec;
 var child;
 
 var osc = require('node-osc');
-const PORT = process.env.PORT || 3000;
-var oscClient = new osc.Client('127.0.0.1', 3333);
+// var oscClient = new osc.Client('127.0.0.1', 3333);
+var oscClient = new osc.Client('192.168.1.5', 3333);
+
 // var oscServer;
 
 var users = 0;
