@@ -56,6 +56,12 @@ app.get("/config", function (req, res) {
 // socket io
 io.on('connection', function (client) {
 
+  socket.on( "echo", function ( msg, callback ) {
+      console.log('tried sending message from server1');
+      io.sockets.emit('bounce', {my: 'data'}); // send to client socket
+      // callback( msg );
+  } );
+
   // on connect
   users++;
   console.log('connection from: '+ client.id);
