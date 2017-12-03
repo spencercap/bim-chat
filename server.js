@@ -11,7 +11,7 @@ var child;
 
 var osc = require('node-osc');
 // var oscClient = new osc.Client('127.0.0.1', 3333);
-var oscClient = new osc.Client('192.168.1.5', 3333);
+var oscClient = new osc.Client('192.168.1.5', 3333); // IP of UnrealComputer
 
 // var oscServer;
 
