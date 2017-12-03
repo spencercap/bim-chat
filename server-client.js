@@ -1,7 +1,7 @@
 // io
 var ioc = require( 'socket.io-client' );
-var client = ioc.connect( "https://bim-chat.herokuapp.com"); // don't need a port for heroku!! / online servers
-// var client = ioc.connect( "http://localhost:" + port );
+// var client = ioc.connect( "https://bim-chat.herokuapp.com"); // don't need a port for heroku!! / online servers
+var client = ioc.connect( "http://localhost:" + 3000 );
 
 // osc
 var osc = require('node-osc');
@@ -11,7 +11,7 @@ var oscClient = new osc.Client(oscIP, oscPort);
 
 
 client.once( "connect", function () {
-    console.log( 'Client: Connected to port ' + port );
+    // console.log( 'Client: Connected to port ' + port );
 
     client.emit( "echo", "Hello World", function ( message ) {
         console.log( 'Echo received: ', message );
