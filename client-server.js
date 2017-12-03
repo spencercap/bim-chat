@@ -1,28 +1,26 @@
-
-//var port = 49102;
-var port = 3000;
-
-var ioc = require( 'socket.io-client' );
-// var client = ioc.connect( "https://serverrr.herokuapp.com"); // don't need a port for heroku!! / online servers
-var client = ioc.connect( "http://localhost:" + port );
+// osc
+var osc = require('node-osc');
+var oscIP = '127.0.0.1'; // IP of UE4
+var oscPort = 8000; // port for UE4
+var oscClient = new osc.Client(oscIP, oscPort);
 
 
-client.once( "connect", function () {
-    // console.log( 'Client: Connected to port ' + port );
+// io (fake client in backend)
+var ioc = require('socket.io-client');
+var ioPort = 3000; // for local testing
+var ioClient = ioc.connect('https://bim-chat.herokuapp.com'); // don't need a port for heroku!! / online servers
+// var ioClient = ioc.connect('http://localhost:' + ioPort ); // for local testing
 
-    client.emit( "echo", "Hello World", function ( message ) {
-        console.log( 'Echo received: ', message );
-        // client.disconnect();
-        // server.close();
-    } );
 
-    client.on('post', function (data) {
+ioClient.once('connect', function () {
+    console.log('connected and running...\ncheck for osc on: ' + oscIP + ' port: ' + oscPort);
+
+    ioClient.on('post', function (data) {
       console.log(data);
+      oscClient.send('/chat/message', data);  // send to osc host@port
     });
 
     // client.on('bounce', function (data) {
     //   console.log(data);
     // });
-
-
-} );
+});

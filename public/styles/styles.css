@@ -201,6 +201,29 @@ textarea:active, textarea:focus {
   margin: 0 0.5em;
 }
 
+.ttButtonContainer {
+  /*visibility: hidden;*/
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5em;
+}
+
+.ttButtonContainer>button {
+  height: 40px;
+  width: 100%;
+  border-radius: 2px;
+  margin: 0 0.5em;
+  background-color: #fff;
+}
+
+.ttButtonContainer>button:active {
+  background-color: var(--user-color);
+}
+
 .hidden {
   visibility: hidden;
+}
+
+.blue {
+  background: #0000ff;
 }

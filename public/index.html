@@ -30,9 +30,14 @@
         <button type="button" class="sendButton" disabled></button>
       </form>
 
-      <div class="noYesContainer hidden">
+      <!-- <div class="noYesContainer hidden">
         <button class="buttonNo">NO</button>
         <button class="buttonYes">YES</button>
+      </div> -->
+
+      <div class="ttButtonContainer hidden">
+        <button class="buttonThis">yes</button>
+        <button class="buttonThat">no</button>
       </div>
 
 
@@ -51,6 +56,11 @@
         var noYesContainer = document.querySelector('.noYesContainer');
         var noButton = document.querySelector('.buttonNo');
         var yesButton = document.querySelector('.buttonYes');
+
+        // better solution
+        var ttButtonContainer = document.querySelector('.ttButtonContainer');
+        var thisButton = document.querySelector('.buttonThis');
+        var thatButton = document.querySelector('.buttonThat');
 
 
 
@@ -77,6 +87,17 @@
           // console.log(data);
           changePrompt(data);
         });
+
+
+
+        socket.on('changeP', function (data) {
+          // console.log(data);
+          prompt.innerText = data.value + '?';
+          changeInputMode(data);
+        });
+
+
+
 
         socket.on('noYesCount', function (data) {
           console.log('no/yes count: ' + data);
@@ -198,16 +219,24 @@
           // post message to container
           changeInputMode = function (data) {
 
-            if ( data == 'noYes' ) {
+            if ( data.type == 'tt' ) {
               textForm.style.visibility = 'hidden';
-              noYesContainer.style.visibility = 'visible';
+              ttButtonContainer.style.visibility = 'visible';
+
+              // change the button options
+              var vals = data.value.split('or ');
+              thisButton.innerHTML = vals[0].trim();
+              thatButton.innerHTML = vals[1].trim();
+
+              thisButton.disabled = false;
+              thatButton.disabled = false;
             }
-            else if ( data == 'text' ) {
+            else if ( data.type == 'q' ) {
               textForm.style.visibility = 'visible';
-              noYesContainer.style.visibility = 'hidden';
+              ttButtonContainer.style.visibility = 'hidden';
             }
             else {
-              console.log('unknown input mode');
+              console.log('bad input mode type');
             }
 
             // resets
@@ -220,26 +249,26 @@
 
 
 
-          // change the prompt for all users
-          changePrompt = function (data) {
-
-            if ( data == '1' ) {
-              prompt.innerText = 'will you be remembered by others when you die?';
-            }
-            else if ( data == '2' ) {
-              prompt.innerText = 'this is the second question';
-            }
-            else if ( data == 'clear' ) {
-              messages.innerHTML = '';
-            }
-
-            // resets
-            textarea.value = '';
-            textarea.rows = 1;
-            autoSize();
-            checkSendState();
-            textarea.focus();
-          }
+          // // change the prompt for all users
+          // changePrompt = function (data) {
+          //
+          //   if ( data == '1' ) {
+          //     prompt.innerText = 'will you be remembered by others when you die?';
+          //   }
+          //   else if ( data == '2' ) {
+          //     prompt.innerText = 'this is the second question';
+          //   }
+          //   else if ( data == 'clear' ) {
+          //     messages.innerHTML = '';
+          //   }
+          //
+          //   // resets
+          //   textarea.value = '';
+          //   textarea.rows = 1;
+          //   autoSize();
+          //   checkSendState();
+          //   textarea.focus();
+          // }
 
 
 
@@ -251,20 +280,26 @@
           });
 
 
-          noYesContainer.addEventListener('click', function(e) {
-            noButton.disabled = true;
-            yesButton.disabled = true;
-            socket.emit('noYes', e.toElement.className.substring(6));
+          // noYesContainer.addEventListener('click', function(e) {
+          //   noButton.disabled = true;
+          //   yesButton.disabled = true;
+          //   socket.emit('noYes', e.toElement.className.substring(6));
+          // });
+
+          ttButtonContainer.addEventListener('click', function(e) {
+            thisButton.disabled = true;
+            thatButton.disabled = true;
+            socket.emit('choice', e.toElement.innerText);
           });
 
 
 
-          promptContainer.addEventListener('click', function(e) {
-            noButton.disabled = false;
-            yesButton.disabled = false;
-
-            socket.emit('message', '::text');
-          });
+          // promptContainer.addEventListener('click', function(e) {
+          //   noButton.disabled = false;
+          //   yesButton.disabled = false;
+          //
+          //   socket.emit('message', '::text');
+          // });
 
 
 
