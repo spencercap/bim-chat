@@ -1,327 +1,270 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>bim chat app</title>
-        <meta charset="UTF-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <head>
+    <title>VESSEL</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 
-        <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-        <link rel="stylesheet" href="styles/styles.css"></style>
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    </head>
-    <body>
+    <link rel="stylesheet" href="styles/styles.css"></style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  </head>
+  <body>
 
-      <div class="promptContainer">
-        <div class="prompt">?</div>
+    <div class="promptContainer">
+      <div class="prompt">?</div>
+    </div>
+
+    <div class="messagesContainer">
+      <!-- <h1>messages</h1> -->
+    </div>
+
+
+    <form class="textForm" action="" method="get">
+      <div class="textarea-container">
+        <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
       </div>
-
-      <div class="messagesContainer">
-        <!-- <h1>messages</h1> -->
-      </div>
+      <button type="button" class="sendButton" disabled></button>
+    </form>
 
 
-
-      <form class="textForm" action="" method="get">
-        <div class="textarea-container">
-          <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
-        </div>
-        <button type="button" class="sendButton" disabled></button>
-      </form>
-
-      <!-- <div class="noYesContainer hidden">
-        <button class="buttonNo">NO</button>
-        <button class="buttonYes">YES</button>
-      </div> -->
-
-      <div class="ttButtonContainer hidden">
-        <button class="buttonThis">yes</button>
-        <button class="buttonThat">no</button>
-      </div>
+    <div class="ttButtonContainer hidden">
+      <button class="buttonThis" id="this">yes</button>
+      <button class="buttonThat" id="that">no</button>
+    </div>
 
 
+    <script>
+      // inits
+      var messages = document.querySelector('.messagesContainer'),
+          inputMessage = document.querySelector('.inputMessage'),
+          sendButton = document.querySelector('.sendButton');
 
-      <script>
+      var promptContainer = document.querySelector('.promptContainer');
+      var prompt = document.querySelector('.prompt');
+      var textForm = document.querySelector('.textForm');
 
-        // inits
-        var messages = document.querySelector('.messagesContainer'),
-            inputMessage = document.querySelector('.inputMessage'),
-            sendButton = document.querySelector('.sendButton');
+      var noYesContainer = document.querySelector('.noYesContainer');
+      var noButton = document.querySelector('.buttonNo');
+      var yesButton = document.querySelector('.buttonYes');
 
-        var promptContainer = document.querySelector('.promptContainer');
-        var prompt = document.querySelector('.prompt');
-        var textForm = document.querySelector('.textForm');
-
-        var noYesContainer = document.querySelector('.noYesContainer');
-        var noButton = document.querySelector('.buttonNo');
-        var yesButton = document.querySelector('.buttonYes');
-
-        // better solution
-        var ttButtonContainer = document.querySelector('.ttButtonContainer');
-        var thisButton = document.querySelector('.buttonThis');
-        var thatButton = document.querySelector('.buttonThat');
+      // better solution
+      var ttButtonContainer = document.querySelector('.ttButtonContainer');
+      var thisButton = document.querySelector('.buttonThis');
+      var thatButton = document.querySelector('.buttonThat');
 
 
 
-        // socket io
-        var socket = io.connect(window.location.origin);
-        // var socket = io.connect('/');
+      // socket io
+      var socket = io.connect(window.location.origin);
+      // var socket = io.connect('/');
 
-        socket.on('connect', function() {
-            //  console.log('connected to server socket');
+      socket.on('connect', function() {
+          //  console.log('connected to server socket');
 
-            // initialize chats
-            console.log(socket.id); // custom color messages
-         });
+          // initialize chats
+          console.log(socket.id); // custom color messages
+       });
 
-        socket.on('response', function (data) {
-          console.log(data);
-        });
+      socket.on('response', function (data) {
+        console.log(data);
+      });
 
-        socket.on('post', function (data) {
-          post(data);
-        });
+      socket.on('post', function (data) {
+        post(data);
+      });
 
-        socket.on('prompt', function (data) {
-          // console.log(data);
-          changePrompt(data);
-        });
+      socket.on('prompt', function (data) {
+        // console.log(data);
+        changePrompt(data);
+      });
 
 
 
-        socket.on('changeP', function (data) {
-          // console.log(data);
-          prompt.innerText = data.value + '?';
-          changeInputMode(data);
-        });
+      socket.on('changeP', function (data) {
+        // console.log(data);
+        prompt.innerText = data.value + '?';
+        changeInputMode(data);
+      });
 
 
 
 
-        socket.on('noYesCount', function (data) {
-          console.log('no/yes count: ' + data);
+      socket.on('noYesCount', function (data) {
+        console.log('no/yes count: ' + data);
 
-          let message = document.createElement('div');
-          message.className = 'message wordwrap';
-          message.innerHTML = data;
-          messages.appendChild(message);
+        let message = document.createElement('div');
+        message.className = 'message wordwrap';
+        message.innerHTML = data;
+        messages.appendChild(message);
 
-        });
+      });
 
-        socket.on('inputMode', function (data) {
-          changeInputMode(data);
-        });
+      socket.on('inputMode', function (data) {
+        changeInputMode(data);
+      });
 
 
 
-        // text container magic
-        var textContainer, textareaSize;
-        var tempH;
-        var TALineHeight;
-        var post;
-        var autoSize = function () {
-          // textareaSize.innerHTML = textarea.value + '\n';
-          if (textarea.value == "") {
-            textarea.rows = 1;
+      // text container magic
+      var textContainer, textareaSize;
+      var tempH;
+      var TALineHeight;
+      var post;
+      var autoSize = function () {
+        // textareaSize.innerHTML = textarea.value + '\n';
+        if (textarea.value == "") {
+          textarea.rows = 1;
+        }
+        else {
+          tempH = textarea.scrollHeight / TALineHeight; // simple math dividing height of text area by it's line height defined in css as 20px to get number of rows typed
+          // console.log(tempH);
+
+          if (tempH == 2) {
+            textarea.rows = 2;
+          }
+          else if (tempH >= 3 ) {
+            textarea.rows = 3;
           }
           else {
-            tempH = textarea.scrollHeight / TALineHeight; // simple math dividing height of text area by it's line height defined in css as 20px to get number of rows typed
-            // console.log(tempH);
-
-            if (tempH == 2) {
-              textarea.rows = 2;
-            }
-            else if (tempH >= 3 ) {
-              textarea.rows = 3;
-            }
-            else {
-              textarea.rows = 1; // default to 1 line height
-            }
+            textarea.rows = 1; // default to 1 line height
           }
+        }
 
-          otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
-          messages.style.height = 'calc(100vh - ' + otherHeights + ')';
+        otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
+        messages.style.height = 'calc(100vh - ' + otherHeights + ')';
 
-        };
-        document.addEventListener('DOMContentLoaded', function() {
-          textContainer = document.querySelector('.textarea-container');
-          // textareaSize = textContainer.querySelector('.textarea-size');
-          // textarea = textContainer.querySelector('textarea');
-          textarea = textContainer.querySelector('.newTA');
-          TALineHeight = parseInt( window.getComputedStyle(textarea)["line-height"] );
+      };
 
 
+      // on dom ready
+      document.addEventListener('DOMContentLoaded', function() {
 
-          // fake form because submiting caused a weird reload
-          sendButton.addEventListener('click', function(e) {
+        // vars
+        textContainer = document.querySelector('.textarea-container');
+        textarea      = textContainer.querySelector('.newTA');
+        TALineHeight  = parseInt( window.getComputedStyle(textarea)["line-height"] );
+
+
+        // do a fake form post because submiting caused a weird reload
+        sendButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          submitMessage();
+          return false;
+        });
+
+
+
+        // submit message on enter key
+        textarea.addEventListener('keypress', function(e) {
+          if (e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             submitMessage();
             return false;
-          });
-
-
-
-          // submit message on enter key
-          textarea.addEventListener('keypress', function(e) {
-            if (e.keyCode == 13 && !e.shiftKey) {
-              e.preventDefault();
-              submitMessage();
-              return false;
-            }
-          });
-
-
-
-          // changes the send button color/state
-          function checkSendState() {
-            if (textarea.value == '') {
-              sendButton.disabled = true;
-              // textarea.rows = 1;
-            }
-            else sendButton.disabled = false;
           }
-          // listener for send button color/state
-          textarea.addEventListener('input', function(e) {
-            checkSendState();
-          });
-
-
-
-          // submit the form message
-          function submitMessage() {
-            // e.preventDefault()
-            // quick validation
-            if ( textarea.value != '' ) {
-              socket.emit('message', textarea.value);
-            }
-          }
-
-
-
-          // post message to container
-          post = function (data) {
-            let message = document.createElement('div');
-            message.className = 'message wordwrap';
-            message.innerHTML = data;
-            messages.appendChild(message);
-            textarea.value = '';
-            textarea.rows = 1;
-
-            // resets
-            autoSize();
-            checkSendState();
-            textarea.focus();
-          }
-
-
-
-          // post message to container
-          changeInputMode = function (data) {
-
-            if ( data.type == 'tt' ) {
-              textForm.style.visibility = 'hidden';
-              ttButtonContainer.style.visibility = 'visible';
-
-              // change the button options
-              var vals = data.value.split('or ');
-              thisButton.innerHTML = vals[0].trim();
-              thatButton.innerHTML = vals[1].trim();
-
-              thisButton.disabled = false;
-              thatButton.disabled = false;
-            }
-            else if ( data.type == 'q' ) {
-              textForm.style.visibility = 'visible';
-              ttButtonContainer.style.visibility = 'hidden';
-            }
-            else {
-              console.log('bad input mode type');
-            }
-
-            // resets
-            textarea.value = '';
-            textarea.rows = 1;
-            autoSize();
-            checkSendState();
-            textarea.focus();
-          }
-
-
-
-          // // change the prompt for all users
-          // changePrompt = function (data) {
-          //
-          //   if ( data == '1' ) {
-          //     prompt.innerText = 'will you be remembered by others when you die?';
-          //   }
-          //   else if ( data == '2' ) {
-          //     prompt.innerText = 'this is the second question';
-          //   }
-          //   else if ( data == 'clear' ) {
-          //     messages.innerHTML = '';
-          //   }
-          //
-          //   // resets
-          //   textarea.value = '';
-          //   textarea.rows = 1;
-          //   autoSize();
-          //   checkSendState();
-          //   textarea.focus();
-          // }
-
-
-
-          var otherHeights;
-          window.addEventListener('resize', function() {
-            autoSize();
-            // otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
-            // messages.style.height = 'calc(100vh - ' + otherHeights + ')';
-          });
-
-
-          // noYesContainer.addEventListener('click', function(e) {
-          //   noButton.disabled = true;
-          //   yesButton.disabled = true;
-          //   socket.emit('noYes', e.toElement.className.substring(6));
-          // });
-
-          ttButtonContainer.addEventListener('click', function(e) {
-            thisButton.disabled = true;
-            thatButton.disabled = true;
-            socket.emit('choice', e.toElement.innerText);
-          });
-
-
-
-          // promptContainer.addEventListener('click', function(e) {
-          //   noButton.disabled = false;
-          //   yesButton.disabled = false;
-          //
-          //   socket.emit('message', '::text');
-          // });
-
-
-
-          // do once on start
-          autoSize();
-          textarea.addEventListener('input', autoSize);
-          textarea.focus();
         });
 
 
 
+        // changes the send button color/state
+        function checkSendState() {
+          if (textarea.value == '') {
+            sendButton.disabled = true;
+            // textarea.rows = 1;
+          }
+          else sendButton.disabled = false;
+        }
+        // listener for send button color/state
+        textarea.addEventListener('input', function(e) {
+          checkSendState();
+        });
 
 
 
+        // submit the form message
+        function submitMessage() {
+          // e.preventDefault()
+          // quick validation
+          if ( textarea.value != '' ) {
+            let m = { type: 'm', value: textarea.value}
+            socket.emit('message', m);
+          }
+        }
 
 
 
+        // post message to container
+        post = function (data) {
+          let message = document.createElement('div');
+          message.className = 'message wordwrap';
+          message.innerHTML = data.value;
+          messages.appendChild(message);
+          textarea.value = '';
+          textarea.rows = 1;
+
+          // resets
+          autoSize();
+          checkSendState();
+          textarea.focus();
+        }
 
 
 
-        // document.documentElement.style.setProperty(`--user-color`, 'red');
+        // post message to container
+        changeInputMode = function (data) {
 
-      </script>
-    </body>
+          if ( data.type == 'tt' ) {
+            textForm.style.visibility = 'hidden';
+            ttButtonContainer.style.visibility = 'visible';
+
+            // change the button options
+            var vals = data.value.split('or ');
+            thisButton.innerHTML = vals[0].trim();
+            thatButton.innerHTML = vals[1].trim();
+
+            thisButton.disabled = false;
+            thatButton.disabled = false;
+          }
+          else if ( data.type == 'q' ) {
+            textForm.style.visibility = 'visible';
+            ttButtonContainer.style.visibility = 'hidden';
+          }
+          else {
+            console.log('bad input mode type');
+          }
+
+          // resets
+          textarea.value = '';
+          textarea.rows = 1;
+          autoSize();
+          checkSendState();
+          textarea.focus();
+        }
+
+        var otherHeights;
+        window.addEventListener('resize', function() {
+          autoSize();
+          // otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
+          // messages.style.height = 'calc(100vh - ' + otherHeights + ')';
+        });
+
+        ttButtonContainer.addEventListener('click', function(e) {
+          thisButton.disabled = true;
+          thatButton.disabled = true;
+          let c = { type: 'c', button: e.toElement.id, value: e.toElement.innerText};
+          socket.emit('choice', c);
+        });
+
+
+        // do once on start
+        autoSize();
+        textarea.addEventListener('input', autoSize);
+        textarea.focus();
+      });
+
+      // document.documentElement.style.setProperty(`--user-color`, 'red');
+    </script>
+  </body>
 </html>

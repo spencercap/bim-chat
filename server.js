@@ -15,8 +15,7 @@ function puts(error, stdout, stderr) {
 // vars
 var users = 0;
 var currentPrompt = {type: 'tt', value: 'red or blue'};
-
-var noYesCount = [0, 0];
+var tt = [0, 0];
 
 
 // express server
@@ -54,67 +53,27 @@ io.on('connection', function (client) {
 
 
 
-
-
   // get the prompt change and send to everyone
   client.on('change', function ( data ) {
-      console.log(data);
-      currentPrompt = data;
-      io.sockets.emit('changeP', currentPrompt);
+    // console.log(data);
+    currentPrompt = data;
+    io.sockets.emit('changeP', currentPrompt);
+    tt = [0, 0];
   });
-
-
-
 
 
   client.on('message', function(data) {
-    console.log(data);
-    // io.sockets.emit('response', 'hello world'); // send to client socket
-
-    // if ( data.substring(0, 2) == '::' ) {
-    //   currentPrompt = data.substring(2);
-    //   if ( currentPrompt == 'noYes' ) {
-    //     io.sockets.emit('inputMode', currentPrompt);          // trigger a prompt popup or change input style
-    //   }
-    //   if ( currentPrompt == 'text' ) {
-    //     io.sockets.emit('inputMode', currentPrompt);          // trigger a prompt popup or change input style
-    //   }
-    //   else {
-    //     io.sockets.emit('prompt', currentPrompt);          // trigger a prompt popup or change input style
-    //   }
-    // }
-    // else {
-    //   io.sockets.emit('post', data);          // send to client socket
-    //   // oscClient.send('/chat/message', data);  // send to osc host@port
-    //
-    //   // cli say
-    //   exec('say "'+ data +'"', puts); // TODO send stripped data only - from RiTa.js NLP
-    // }
-
+    // console.log(data);
     io.sockets.emit('post', data);  // send to client socket
     exec('say "'+ data +'"', puts); // TODO send stripped data only - from RiTa.js NLP
-
   });
+
 
   client.on('choice', function(data) {
+    // console.log(data);
     io.sockets.emit('post', data);  // send to client socket
     exec('say "'+ data +'"', puts); // TODO send stripped data only - from RiTa.js NLP
   });
-
-
-
-  // client.on('noYes', function(data) {
-  //   if ( data == 'No' ) {
-  //     noYesCount[0]++;
-  //     io.sockets.emit('noYesCount', noYesCount);
-  //   }
-  //   else if ( data == 'Yes') {
-  //     noYesCount[1]++;
-  //     io.sockets.emit('noYesCount', noYesCount);
-  //   }
-  //   console.log('no/yes count: ' + noYesCount);
-  // });
-
 
 
   client.on('disconnect', function() {
