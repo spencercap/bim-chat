@@ -19,5 +19,22 @@ the server converts socket.io messages into OSC messages, which can be picked up
 
 ```
 npm i
+```
+
+## Run OSC
+
+```
+node client-server.js
+```
+( automatically connects to heroku server )
+
+## Run Server Locally
+
+```
 npm start
+```
+( need to swap line 11 & 12, one or other )
+```
+var ioClient = ioc.connect('https://bim-chat.herokuapp.com'); // don't need a port for heroku!! / online servers
+// var ioClient = ioc.connect('http://localhost:' + ioPort ); // for local testing
 ```
