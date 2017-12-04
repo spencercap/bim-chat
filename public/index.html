@@ -66,6 +66,9 @@
 
           // initialize chats
           console.log(socket.id); // custom color messages
+
+          socket.emit('getPrompt');
+
        });
 
       socket.on('response', function (data) {
@@ -73,6 +76,7 @@
       });
 
       socket.on('post', function (data) {
+        // console.log(data);
         post(data);
       });
 
@@ -84,6 +88,13 @@
 
 
       socket.on('changeP', function (data) {
+        // console.log(data);
+        prompt.innerText = data.value + '?';
+        changeInputMode(data);
+      });
+
+
+      socket.on('promptInit', function (data) {
         // console.log(data);
         prompt.innerText = data.value + '?';
         changeInputMode(data);
@@ -197,10 +208,10 @@
 
         // post message to container
         post = function (data) {
-          let message = document.createElement('div');
-          message.className = 'message wordwrap';
-          message.innerHTML = data.value;
-          messages.appendChild(message);
+          // let message = document.createElement('div');
+          // message.className = 'message wordwrap';
+          // message.innerHTML = data.value;
+          // messages.appendChild(message);
           textarea.value = '';
           textarea.rows = 1;
 

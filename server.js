@@ -49,7 +49,7 @@ io.on('connection', function (client) {
   // on connect initialize things
   users++;
   console.log('connection from: '+ client.id);
-  io.sockets.emit('changeP', currentPrompt);
+  // io.sockets.emit('changeP', currentPrompt);
 
 
 
@@ -61,18 +61,31 @@ io.on('connection', function (client) {
     tt = [0, 0];
   });
 
+  client.on('getPrompt', function ( ) {
+    // console.log(data);
+    io.sockets.emit('promptInit', currentPrompt);
+  });
+
 
   client.on('message', function(data) {
     // console.log(data);
+    data.score = tt;
     io.sockets.emit('post', data);  // send to client socket
-    exec('say "'+ data +'"', puts); // TODO send stripped data only - from RiTa.js NLP
+    exec('say "'+ data.value +'"', puts); // TODO send stripped data only - from RiTa.js NLP
   });
 
 
   client.on('choice', function(data) {
     // console.log(data);
+    if ( data.button == 'this' ) {
+      tt[0]++;
+    }
+    else if ( data.button == 'that' ) {
+      tt[1]++;
+    }
+    data.score = tt;
     io.sockets.emit('post', data);  // send to client socket
-    exec('say "'+ data +'"', puts); // TODO send stripped data only - from RiTa.js NLP
+    exec('say "'+ data.value +'"', puts); // TODO send stripped data only - from RiTa.js NLP
   });
 
 

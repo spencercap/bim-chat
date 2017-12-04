@@ -17,6 +17,10 @@
         <div class="prompt">?</div>
       </div>
 
+      <div class="scoreContainer">
+        <div class="score">#</div>
+      </div>
+
       <div class="messagesContainer">
         <!-- <h1>messages</h1> -->
       </div>
@@ -46,6 +50,9 @@
         //
         var promptContainer = document.querySelector('.promptContainer');
         var prompt = document.querySelector('.prompt');
+
+        var scoreContainer = document.querySelector('.scoreContainer');
+        var score = document.querySelector('.score');
         // var textForm = document.querySelector('.textForm');
         //
         // var noYesContainer = document.querySelector('.noYesContainer');
@@ -60,15 +67,21 @@
             //  console.log('connected to server socket');
             // TODO initialize old chats
             console.log(socket.id); // custom color messages
+            socket.emit('getPrompt');
+
          });
 
         socket.on('post', function (data) {
-          post(data);
+          if ( data.type == 'm' ) {
+            post(data);
+          }
+          score.innerText = data.score;
         });
 
         socket.on('changeP', function (data) {
           // console.log(data);
           prompt.innerText = data.value + '?';
+          score.innerText = '[0, 0]';
           // changeInputMode(data);
 
           // show when prompt changes happened
@@ -78,6 +91,12 @@
           messages.appendChild(message);
         });
 
+        socket.on('promptInit', function (data) {
+          // console.log(data);
+          prompt.innerText = data.value + '?';
+          changeInputMode(data);
+        });
+
 
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -85,7 +104,7 @@
           post = function (data) {
             let message = document.createElement('div');
             message.className = 'message wordwrap';
-            message.innerHTML = data;
+            message.innerHTML = data.value;
             messages.appendChild(message);
             // textarea.value = '';
             // textarea.rows = 1;
