@@ -8,8 +8,8 @@ var oscClient = new osc.Client(oscIP, oscPort);
 // io (fake client in backend)
 var ioc = require('socket.io-client');
 var ioPort = 3000; // for local testing
-// var ioClient = ioc.connect('https://bim-chat.herokuapp.com'); // don't need a port for heroku!! / online servers
-var ioClient = ioc.connect('http://localhost:' + ioPort ); // for local testing
+var ioClient = ioc.connect('https://bim-chat.herokuapp.com'); // don't need a port for heroku!! / online servers
+// var ioClient = ioc.connect('http://localhost:' + ioPort ); // for local testing
 
 
 ioClient.once('connect', function () {
