@@ -13,16 +13,16 @@
   </head>
   <body>
 
-    <div class="promptContainer">
+    <div class="promptContainer none">
       <div class="prompt">?</div>
     </div>
 
-    <div class="messagesContainer">
-      <!-- <h1>messages</h1> -->
-    </div>
+    <!-- <div class="messagesContainer">
+      <h1>messages</h1>
+    </div> -->
 
 
-    <form class="textForm" action="" method="get">
+    <form class="textForm hidden" action="" method="get">
       <div class="textarea-container">
         <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
       </div>
@@ -30,10 +30,13 @@
     </form>
 
 
-    <div class="ttButtonContainer hidden">
+    <div class="ttButtonContainer">
       <button class="buttonThis" id="this">yes</button>
+      <div class="or">or</div>
       <button class="buttonThat" id="that">no</button>
     </div>
+
+    <div class="flash flashAnim"></div>
 
 
     <script>
@@ -54,6 +57,9 @@
       var ttButtonContainer = document.querySelector('.ttButtonContainer');
       var thisButton = document.querySelector('.buttonThis');
       var thatButton = document.querySelector('.buttonThat');
+
+      // flash
+      var flash = document.querySelector('.flash');
 
 
 
@@ -90,6 +96,7 @@
       socket.on('changeP', function (data) {
         // console.log(data);
         prompt.innerText = data.value + '?';
+        flash.classList.add('flashAnim');
         changeInputMode(data);
       });
 
@@ -145,7 +152,7 @@
         }
 
         otherHeights = promptContainer.offsetHeight + 'px - ' + getComputedStyle(textForm).getPropertyValue('margin-top') + ' - ' + getComputedStyle(textForm).getPropertyValue('margin-bottom') + ' - ' + textForm.offsetHeight + 'px' ;
-        messages.style.height = 'calc(100vh - ' + otherHeights + ')';
+        // messages.style.height = 'calc(100vh - ' + otherHeights + ')';
 
       };
 
@@ -176,6 +183,13 @@
             return false;
           }
         });
+
+        // delete the flashAnim class after the animation ends so it can be added on new questions.
+        flash.addEventListener("animationend", function() {
+          flash.classList.remove('flashAnim');
+        });
+
+
 
 
 
@@ -229,6 +243,7 @@
           if ( data.type == 'tt' ) {
             textForm.style.visibility = 'hidden';
             ttButtonContainer.style.visibility = 'visible';
+            promptContainer.classList.add('none');
 
             // change the button options
             var vals = data.value.split('or ');
@@ -241,6 +256,7 @@
           else if ( data.type == 'q' ) {
             textForm.style.visibility = 'visible';
             ttButtonContainer.style.visibility = 'hidden';
+            promptContainer.classList.remove('none');
           }
           else {
             console.log('bad input mode type');
@@ -261,13 +277,20 @@
           // messages.style.height = 'calc(100vh - ' + otherHeights + ')';
         });
 
-        ttButtonContainer.addEventListener('click', function(e) {
+        thisButton.addEventListener('click', function(e) {
           thisButton.disabled = true;
           thatButton.disabled = true;
-          let c = { type: 'c', button: e.toElement.id, value: e.toElement.innerText};
+          let c = { type: 'c', button: e.target.id, value: e.target.innerText};
           socket.emit('choice', c);
         });
 
+        thatButton.addEventListener('click', function(e) {
+          window.navigator.vibrate(200);
+          thisButton.disabled = true;
+          thatButton.disabled = true;
+          let c = { type: 'c', button: e.target.id, value: e.target.innerText};
+          socket.emit('choice', c);
+        });
 
         // do once on start
         autoSize();
