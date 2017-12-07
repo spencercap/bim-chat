@@ -13,6 +13,8 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -180,10 +182,11 @@ textarea:active, textarea:focus {
 }
 
 .ttButtonContainer>button {
-  height: 200px;
+  /*height: 200px;*/
+  height: 30%;
   width: 100%;
   border-radius: 0px;
-  font-size: 3rem;
+  font-size: 3em;
   font-family: 'Roboto', sans-serif;
   color: #4d4d4d;
   /*margin: 0 0.5em;*/
