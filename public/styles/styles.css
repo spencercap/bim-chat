@@ -157,6 +157,13 @@ textarea:active, textarea:focus {
   font-size: 2.5rem;
 }
 
+.users {
+  background: #353535;
+  color: hotpink;
+  padding: 2rem;
+  font-size: 2.5rem;
+}
+
 .noYesContainer {
   /*visibility: hidden;*/
   display: flex;

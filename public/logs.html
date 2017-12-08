@@ -13,11 +13,13 @@
     </head>
     <body>
 
-      <div class="promptContainer">
+      <span class="promptContainer">Users: <span class="users">#</span></span>
+
+      <div class="promptContainer">Prompt:
         <div class="prompt">?</div>
       </div>
 
-      <div class="scoreContainer">
+      <div class="scoreContainer">This/That Score:
         <div class="score">#</div>
       </div>
 
@@ -114,6 +116,12 @@
             // checkSendState();
             // textarea.focus();
           }
+
+          // users
+          var users = document.querySelector('.users');
+          socket.on('users', function (data) {
+            users.textContent = data;
+          });
 
         });
 

@@ -49,6 +49,7 @@ io.on('connection', function (client) {
   // on connect initialize things
   users++;
   console.log('connection from: '+ client.id);
+  io.sockets.emit('users', users);  // send to client socket
   // io.sockets.emit('changeP', currentPrompt);
 
 
@@ -91,6 +92,7 @@ io.on('connection', function (client) {
 
   client.on('disconnect', function() {
     users--;
+    io.sockets.emit('users', users);  // send to client socket
     // console.log(users);
   });
 
