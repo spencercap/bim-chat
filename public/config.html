@@ -25,29 +25,75 @@
             /*outline: #00FF00 dotted thick !important;*/
           }
 
+          button:active {
+            background: red;
+          }
+
         </style>
     </head>
-    <body>
+    <body style="overflow: visible;">
 
       <h1>Users: <span class="users">#</span></h1>
       <hr>
 
-      <h1>Questions</h1>
+      <h1>Prompts</h1>
         <ul class="qContainer">
           <input type="radio" name="q" value="how do you judge a person">how do you judge a person</input><br>
           <input type="radio" name="q" value="what are you currently worried about">what are you currently worried about<br>
           <input type="radio" name="q" value="for what in your life do you feel most grateful">for what in your life do you feel most grateful<br>
           <input type="radio" name="q" value="what is your most treasured memory">what is your most treasured memory<br>
+          <input type="radio" name="q" value="are you afraid of death">are you afraid of death<br>
+          <input type="radio" name="q" value="would you sacrifice your life for your loved ones">would you sacrifice your life for your loved ones<br>
+          <input type="radio" name="q" value="do you remain friends with your exes">do you remain friends with your exes<br>
+          <input type="radio" name="q" value="how do you judge a person">how do you judge a person<br>
+          <input type="radio" name="q" value="what’s something people don’t worry about but should">what’s something people don’t worry about but should<br>
+          <input type="radio" name="q" value="what do you value most in a friendship">what do you value most in a friendship<br>
+          <input type="radio" name="q" value="what was cool when you were young but isn’t now">what was cool when you were young but isn’t now<br>
+          <input type="radio" name="q" value="what was the best thing that happened to you today">what was the best thing that happened to you today<br>
         </ul>
+
+        <br>
+        <div class="customMContainer">
+          <input type="text" class="customM" placeholder="custom prompt"></input>
+          <button class="custommPost" onclick="custommPost(this);">POST</button>
+        </div>
       <hr>
 
       <h1>This/That</h1>
         <ul class="ttContainer">
+          <input type="radio" name="tt" value="ready or not">ready or not</input><br>
           <input type="radio" name="tt" value="yes or no">yes or no</input><br>
           <input type="radio" name="tt" value="red or blue">red or blue<br>
           <input type="radio" name="tt" value="younger or older">younger or older<br>
           <input type="radio" name="tt" value="urban or suburban">urban or suburban<br>
+          <input type="radio" name="tt" value="life or death">life or death<br>
+
         </ul>
+
+        <br>
+        <div class="customtt">
+          <input type="text" class="customThis" placeholder="custom this"></input>
+          <input type="text" class="customThat" placeholder="custom this"></input>
+          <button class="customttPost" onclick="customttPost(this);">POST</button>
+        </div>
+      <hr>
+
+      <h1>Fake OSC Responses</h1>
+        <ul class="fakeOSCttContainer">This/Thats:
+          <button id="this" onclick="OSCbuttonTTPress(this);">hello</button>
+          <button id="that" onclick="OSCbuttonTTPress(this);">world</button>
+        </ul>
+
+
+
+        <ul class="fakeOSCmContainer">Messages:
+          <button onclick="OSCbuttonMPress(this);">bye</button>
+          <button onclick="OSCbuttonMPress(this);">local</button>
+        </ul>
+        <div class="fakeOSCmTextContainer">
+          <input type="text" class="fakeOSCmText" placeholder="fake OSC message"></input>
+          <button class="fakeOSCmPost" onclick="fakeOSCmPost(this);">POST</button>
+        </div>
       <hr>
 
       <script>
@@ -62,7 +108,10 @@
         // change the radio button to keep all synced
         socket.on('changeP', function (data) {
           var promptChange = document.querySelector('input[name="'+ data.type +'"][value="'+ data.value +'"]');
-          promptChange.checked = true;
+          // console.log(promptChange);
+          if ( promptChange != null) {
+            promptChange.checked = true;
+          }
         });
 
 
@@ -107,8 +156,41 @@
             users.textContent = data;
           });
 
-
         });
+
+        function OSCbuttonMPress(e) {
+          // console.log(e);
+          socket.emit('message', {type: 'm', value: e.innerText});
+        };
+
+        function OSCbuttonTTPress(e) {
+          // console.log(e);
+          socket.emit('choice', {type: 'c', button: e.id, value: e.innerText});
+        };
+
+        function customttPost(e) {
+          var customThis = document.querySelector('.customThis');
+          var customThat = document.querySelector('.customThat');
+          // console.log(customThis.value, customThat.value);
+          socket.emit('change', {type: 'tt', value: customThis.value + ' or ' + customThat.value});
+          customThis.value = '';
+          customThat.value = '';
+        };
+
+        function custommPost(e) {
+          var customM = document.querySelector('.customM');
+          // console.log(customM.value);
+          socket.emit('change', {type: 'q', value: customM.value});
+          customM.value = '';
+        };
+
+        function fakeOSCmPost(e) {
+          var fakeOSCmText = document.querySelector('.fakeOSCmText');
+          // console.log(fakeOSCmText.value);
+          let m = { type: 'm', value: fakeOSCmText.value}
+          socket.emit('message', m);
+          fakeOSCmText.value = '';
+        };
 
       </script>
     </body>

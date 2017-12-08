@@ -26,7 +26,7 @@
 
     <form class="textForm" action="" method="get">
       <div class="textarea-container">
-        <textarea class="newTA" autofocus name="inMess" placeholder="type something" id="" rows="1"></textarea>
+        <textarea class="newTA" autofocus name="inMess" placeholder="your answer" id="" rows="1"></textarea>
       </div>
       <button type="button" class="sendButton" disabled></button>
     </form>
@@ -181,6 +181,7 @@
         sendButton.addEventListener('click', function(e) {
           e.preventDefault();
           submitMessage();
+          vibrate(200);
           return false;
         });
 

@@ -14,7 +14,7 @@ function puts(error, stdout, stderr) {
 
 // vars
 var users = 0;
-var currentPrompt = {type: 'tt', value: 'red or blue'};
+var currentPrompt = {type: 'tt', value: 'ready or not'};
 var tt = [0, 0];
 
 

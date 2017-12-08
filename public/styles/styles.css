@@ -23,6 +23,7 @@ body::-webkit-scrollbar {
 
 button {border:0; outline:none;}
 
+
 .sendButton {
   width: var(--send-button-size);
   height: var(--send-button-size);
@@ -50,6 +51,10 @@ button {border:0; outline:none;}
 .sendButton:disabled {
   background-color: #d2d2d2 !important;
 }
+
+/*.sendButton:active {
+  background-color: var(--user-color) !important;
+}*/
 
 .sendButtonImg {
   background-image: url('../imgs/sendButton.svg');
