@@ -71,7 +71,7 @@ io.on('connection', function (client) {
     // console.log(data);
     data.score = tt;
     io.sockets.emit('post', data);  // send to client socket
-    exec('say "'+ data.value +'"', puts); // TODO send stripped data only - from RiTa.js NLP
+    // exec('say "'+ data.value +'"', puts); // TODO send stripped data only - from RiTa.js NLP
   });
 
 
@@ -85,7 +85,7 @@ io.on('connection', function (client) {
     }
     data.score = tt;
     io.sockets.emit('post', data);  // send to client socket
-    exec('say "'+ data.value +'"', puts); // TODO send stripped data only - from RiTa.js NLP
+    // exec('say "'+ data.value +'"', puts); // TODO send stripped data only - from RiTa.js NLP
   });
 
 

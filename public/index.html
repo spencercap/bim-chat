@@ -40,6 +40,14 @@
 
     <div class="flash flashAnim"></div>
 
+    <audio id="1" src="/mp3s/1.mp3" autostart="false"></audio>
+    <audio id="2" src="/mp3s/2.mp3" autostart="false"></audio>
+    <audio id="3" src="/mp3s/3.mp3" autostart="false"></audio>
+    <audio id="4" src="/mp3s/4.mp3" autostart="false"></audio>
+    <audio id="5" src="/mp3s/5.mp3" autostart="false"></audio>
+    <audio id="6" src="/mp3s/6.mp3" autostart="false"></audio>
+
+
 
     <script>
       // inits
@@ -100,6 +108,7 @@
         prompt.innerText = data.value + '?';
         flash.classList.add('flashAnim');
         changeInputMode(data);
+        vibrate(900);
       });
 
 
@@ -284,14 +293,18 @@
           thatButton.disabled = true;
           let c = { type: 'c', button: e.target.id, value: e.target.innerText};
           socket.emit('choice', c);
+          playSound();
+          vibrate(200);
         });
 
         thatButton.addEventListener('click', function(e) {
-          window.navigator.vibrate(200);
           thisButton.disabled = true;
           thatButton.disabled = true;
           let c = { type: 'c', button: e.target.id, value: e.target.innerText};
           socket.emit('choice', c);
+          playSound();
+          // window.navigator.vibrate(200);
+          vibrate(200);
         });
 
         // do once on start
@@ -299,6 +312,20 @@
         textarea.addEventListener('input', autoSize);
         textarea.focus();
       });
+
+      // random sound on choice response
+      var randomAudio;
+      var sound;
+      function playSound() {
+          randomAudio = Math.ceil(Math.random() * 6).toString();
+          sound = document.getElementById(randomAudio);
+          sound.play();
+      }
+
+
+      function vibrate(duration) {
+        window.navigator.vibrate(duration);
+      }
 
       // document.documentElement.style.setProperty(`--user-color`, 'red');
     </script>
