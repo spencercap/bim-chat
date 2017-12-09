@@ -32,7 +32,7 @@ ioClient.once('connect', function () {
       }
 
       else if (data.type == 'm') {
-        oscClient.send('/message/value', "\""+data.value+"\"");  // send to osc host@port
+        oscClient.send('/message/value', data.value );  // send to osc host@port
       }
       else {
         console.log('bad data type, not a c or m');
@@ -43,10 +43,10 @@ ioClient.once('connect', function () {
     ioClient.on('changeP', function (data) {
       // console.log(data);
       if (data.type == 'q') {
-        oscClient.send('/prompt/q', "\""+data.value+"?\"");  // send to osc host@port
+        oscClient.send('/prompt/q', data.value );  // send to osc host@port
       }
       else if (data.type == 'tt') {
-        oscClient.send('/prompt/tt', "\""+data.value+"?\"");  // send to osc host@port
+        oscClient.send('/prompt/tt', data.value );  // send to osc host@port
       }
       else {
         console.log('bad type for a prompt change');
