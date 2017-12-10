@@ -32,6 +32,12 @@ body::-webkit-scrollbar {
 
 button {border:0; outline:none;}
 
+.url {
+  text-align: center;
+  background: #e6e6e6;
+  font-weight: bold;
+  padding: 0.5em;
+}
 
 .sendButton {
   width: var(--send-button-size);

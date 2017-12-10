@@ -35,52 +35,33 @@
 
       <h1>Users: <span class="users">#</span></h1>
       <hr>
-
-      <!-- TODO put this here and NOT in logs:
-      <div class="promptContainer">Prompt:
-        <div class="prompt">?</div>
+      <div class="scoreContainer">Score:
+        <div class="score">0</div>
       </div>
-
-      <div class="scoreContainer">This/That Score:
-        <div class="score">#</div>
-      </div>
-      -->
-
-      <h1>Prompts</h1>
-        <ul class="qContainer">
-          <input type="radio" name="q" value="how do you judge a person">how do you judge a person</input><br>
-          <input type="radio" name="q" value="what are you currently worried about">what are you currently worried about<br>
-          <input type="radio" name="q" value="for what in your life do you feel most grateful">for what in your life do you feel most grateful<br>
-          <input type="radio" name="q" value="what is your most treasured memory">what is your most treasured memory<br>
-          <input type="radio" name="q" value="are you afraid of death">are you afraid of death<br>
-          <input type="radio" name="q" value="would you sacrifice your life for your loved ones">would you sacrifice your life for your loved ones<br>
-          <input type="radio" name="q" value="do you remain friends with your exes">do you remain friends with your exes<br>
-          <input type="radio" name="q" value="how do you judge a person">how do you judge a person<br>
-          <input type="radio" name="q" value="what’s something people don’t worry about but should">what’s something people don’t worry about but should<br>
-          <input type="radio" name="q" value="what do you value most in a friendship">what do you value most in a friendship<br>
-          <input type="radio" name="q" value="what was cool when you were young but isn’t now">what was cool when you were young but isn’t now<br>
-          <input type="radio" name="q" value="what was the best thing that happened to you today">what was the best thing that happened to you today<br>
-        </ul>
-
-        <br>
-        <div class="customMContainer">
-          <input type="text" class="customM" placeholder="custom prompt"></input>
-          <button class="custommPost" onclick="custommPost(this);">POST</button>
-        </div>
       <hr>
 
       <h1>Yes/No Prompts</h1>
         <ul class="ttContainer">
-          <input type="radio" name="tt" value="do you fear death">do you fear death</input><br>
-          <input type="radio" name="tt" value="this is a yes no prompt">this is a yes no prompt</input><br>
+          <h3>Session 1:</h3>
+          <input type="radio" name="tt" value="Ready or not">Ready or not</input><br>
+          <input type="radio" name="tt" value="Is death scary">Is death scary</input><br>
+          <input type="radio" name="tt" value="Is it okay to lie">Is it okay to lie</input><br>
+
+          <h3>Session 2:</h3>
+          <input type="radio" name="tt" value="Can words convey how you feel">Can words convey how you feel</input><br>
+          <input type="radio" name="tt" value="Do you stay friends with your exes">Do you stay friends with your exes</input><br>
+
+          <h3>Session 3:</h3>
+          <input type="radio" name="tt" value="Are you living the life you dreamed about">Are you living the life you dreamed about</input><br>
+          <input type="radio" name="tt" value="Have you cheated">Have you cheated</input><br>
 
 
-          <input type="radio" name="tt" value="ready or not">ready or not</input><br>
+          <!-- <input type="radio" name="tt" value="ready or not">ready or not</input><br>
           <input type="radio" name="tt" value="yes or no">yes or no</input><br>
           <input type="radio" name="tt" value="red or blue">red or blue<br>
           <input type="radio" name="tt" value="younger or older">younger or older<br>
           <input type="radio" name="tt" value="urban or suburban">urban or suburban<br>
-          <input type="radio" name="tt" value="life or death">life or death<br>
+          <input type="radio" name="tt" value="life or death">life or death<br> -->
 
         </ul>
 
@@ -92,8 +73,48 @@
         </div>
       <hr>
 
+
+
+      <h1>Prompts</h1>
+        <ul class="qContainer">
+          <h3>Session 1:</h3>
+          <input type="radio" name="q" value="What do you value most in a friendship">What do you value most in a friendship</input><br>
+          <input type="radio" name="q" value="What do you value most in a friendship">What do you value most in a friendship</input><br>
+
+          <h3>Session 2:</h3>
+          <input type="radio" name="q" value="What do you value most in a friendship">What do you value most in a friendship</input><br>
+          <input type="radio" name="q" value="What do you value most in a friendship">What do you value most in a friendship</input><br>
+
+          <h3>Session 3:</h3>
+          <input type="radio" name="q" value="What do you value most in a friendship">What do you value most in a friendship</input><br>
+          <input type="radio" name="q" value="What do you value most in a friendship">What do you value most in a friendship</input><br>
+
+
+
+          <!-- <input type="radio" name="q" value="how do you judge a person">how do you judge a person</input><br>
+          <input type="radio" name="q" value="what are you currently worried about">what are you currently worried about<br>
+          <input type="radio" name="q" value="for what in your life do you feel most grateful">for what in your life do you feel most grateful<br>
+          <input type="radio" name="q" value="what is your most treasured memory">what is your most treasured memory<br>
+          <input type="radio" name="q" value="are you afraid of death">are you afraid of death<br>
+          <input type="radio" name="q" value="would you sacrifice your life for your loved ones">would you sacrifice your life for your loved ones<br>
+          <input type="radio" name="q" value="do you remain friends with your exes">do you remain friends with your exes<br>
+          <input type="radio" name="q" value="how do you judge a person">how do you judge a person<br>
+          <input type="radio" name="q" value="what’s something people don’t worry about but should">what’s something people don’t worry about but should<br>
+          <input type="radio" name="q" value="what do you value most in a friendship">what do you value most in a friendship<br>
+          <input type="radio" name="q" value="what was cool when you were young but isn’t now">what was cool when you were young but isn’t now<br>
+          <input type="radio" name="q" value="what was the best thing that happened to you today">what was the best thing that happened to you today<br> -->
+        </ul>
+
+        <br>
+        <div class="customMContainer">
+          <input type="text" class="customM" placeholder="custom prompt"></input>
+          <button class="custommPost" onclick="custommPost(this);">POST</button>
+        </div>
+      <hr>
+
+
       <h1>Fake OSC Responses</h1>
-        <ul class="fakeOSCttContainer">This/Thats:
+        <ul class="fakeOSCttContainer">Yes/No:
           <button id="this" onclick="OSCbuttonTTPress(this);">YES</button>
           <button id="that" onclick="OSCbuttonTTPress(this);">NO</button>
         </ul>
@@ -112,6 +133,7 @@
 
       <script>
 
+        var score ;
         // socket io
         var socket = io.connect(window.location.origin);
         socket.on('connect', function() {
@@ -126,7 +148,10 @@
           if ( promptChange != null) {
             promptChange.checked = true;
           }
+          score.innerText = '0';
+
         });
+
 
 
         socket.on('noYesCount', function (data) {
@@ -161,6 +186,18 @@
             }
             else {
               console.log('mis-click or same tt called');
+            }
+          });
+
+          var scoreContainer = document.querySelector('.scoreContainer');
+          score = document.querySelector('.score');
+          socket.on('post', function (data) {
+            if ( data.type == 'm' ) {
+              // post(data);
+            }
+            else if ( data.type == 'c') {
+              // post(data);
+              score.innerText = data.score;
             }
           });
 
