@@ -32,10 +32,15 @@
     </form>
 
 
-    <div class="ttButtonContainer hidden">
+    <!-- <div class="ttButtonContainer hidden" style="display: none;">
       <button class="buttonThis" id="this">yes</button>
       <div class="or">or</div>
       <button class="buttonThat" id="that">no</button>
+    </div> -->
+
+    <div class="ynButtonContainer">
+      <div id="this" class="button bYes">YES</div>
+      <div id="that" class="button bNo">NO</div>
     </div>
 
     <div class="flash flashAnim"></div>
@@ -254,16 +259,21 @@
 
           if ( data.type == 'tt' ) {
             textForm.style.visibility = 'hidden';
-            ttButtonContainer.style.visibility = 'visible';
+            // ttButtonContainer.style.visibility = 'visible';
             promptContainer.classList.add('none');
 
-            // change the button options
-            var vals = data.value.split('or ');
-            thisButton.innerHTML = vals[0].trim();
-            thatButton.innerHTML = vals[1].trim();
 
-            thisButton.disabled = false;
-            thatButton.disabled = false;
+            // change the button options
+            // var vals = data.value.split('or ');
+            // thisButton.innerHTML = vals[0].trim();
+            // thatButton.innerHTML = vals[1].trim();
+
+            bYes.classList.remove('ySelected');
+            bNo.classList.remove('nSelected');
+
+            bYes.classList.remove('disabled');
+            bNo.classList.remove('disabled');
+
           }
           else if ( data.type == 'q' ) {
             textForm.style.visibility = 'visible';
@@ -289,22 +299,45 @@
           // messages.style.height = 'calc(100vh - ' + otherHeights + ')';
         });
 
-        thisButton.addEventListener('click', function(e) {
-          thisButton.disabled = true;
-          thatButton.disabled = true;
+        // thisButton.addEventListener('click', function(e) {
+        //   thisButton.disabled = true;
+        //   thatButton.disabled = true;
+        //   let c = { type: 'c', button: e.target.id, value: e.target.innerText};
+        //   socket.emit('choice', c);
+        //   playSound();
+        //   vibrate(200);
+        // });
+        //
+        // thatButton.addEventListener('click', function(e) {
+        //   thisButton.disabled = true;
+        //   thatButton.disabled = true;
+        //   let c = { type: 'c', button: e.target.id, value: e.target.innerText};
+        //   socket.emit('choice', c);
+        //   playSound();
+        //   // window.navigator.vibrate(200);
+        //   vibrate(200);
+        // });
+
+        var bYes = document.querySelector('.bYes');
+        var bNo = document.querySelector('.bNo');
+
+        bYes.addEventListener('click', function(e) {
+          bYes.classList.add('ySelected');
+          bYes.classList.add('disabled');
+          bNo.classList.add('disabled');
           let c = { type: 'c', button: e.target.id, value: e.target.innerText};
           socket.emit('choice', c);
           playSound();
           vibrate(200);
         });
 
-        thatButton.addEventListener('click', function(e) {
-          thisButton.disabled = true;
-          thatButton.disabled = true;
+        bNo.addEventListener('click', function(e) {
+          bNo.classList.add('nSelected');
+          bYes.classList.add('disabled');
+          bNo.classList.add('disabled');
           let c = { type: 'c', button: e.target.id, value: e.target.innerText};
           socket.emit('choice', c);
           playSound();
-          // window.navigator.vibrate(200);
           vibrate(200);
         });
 
