@@ -38,7 +38,7 @@ ioClient.once('connect', function () {
         console.log('bad data type, not a c or m');
       }
 
-      // console.log(data);
+      console.log(data);
     });
 
 
