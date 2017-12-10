@@ -256,6 +256,7 @@ textarea:active, textarea:focus {
 }
 
 .promptContainer {
+  text-align: center;
   background: #444444;
   color: hotpink;
   padding: 2rem;
