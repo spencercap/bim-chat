@@ -3,13 +3,13 @@
   /*--user-color: #1cd67e;*/
   --send-button-size: 2.5rem;
 }
-
+/*
 * {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-}
+}*/
 
 html {
   /*background: var(--user-color);*/
@@ -133,12 +133,17 @@ form {
   width: calc( 100% - var(--send-button-size) - 1rem );
 }
 
+textarea {
+  border-radius: 0;
+}
+
 textarea::placeholder {
   color: #d2d2d2;
 }
 
 textarea:active, textarea:focus {
   border-color: var(--user-color);
+  border-radius: 0;
 }
 
 .wordwrap {
