@@ -41,6 +41,9 @@
         <!-- <h1>messages</h1> -->
       </div>
 
+      <div class="flash flashAnim"></div>
+
+
 
 
       <!-- <form class="textForm" action="" method="get">
@@ -66,6 +69,10 @@
         //
         var promptContainer = document.querySelector('.promptContainer');
         var prompt = document.querySelector('.prompt');
+
+        // flash
+        var flash = document.querySelector('.flash');
+
 
         // var scoreContainer = document.querySelector('.scoreContainer');
         // var score = document.querySelector('.score');
@@ -100,6 +107,9 @@
         socket.on('changeP', function (data) {
           // console.log(data);
           prompt.innerText = data.value + '?';
+          messages.innerHTML = '';
+
+          flash.classList.add('flashAnim');
           // score.innerText = '[0, 0]';
           // changeInputMode(data);
 
@@ -137,6 +147,11 @@
             // checkSendState();
             // textarea.focus();
           }
+
+          // delete the flashAnim class after the animation ends so it can be added on new questions.
+          flash.addEventListener("animationend", function() {
+            flash.classList.remove('flashAnim');
+          });
 
           // users
           // var users = document.querySelector('.users');
