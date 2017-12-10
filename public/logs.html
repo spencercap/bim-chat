@@ -13,29 +13,29 @@
 
         <style>
 
-        body {
+        html {
           background: #000;
         }
 
-        .message {
+        /*.message {
           background: #4d4d4d;
           color: var(--user-color);
-        }
+        }*/
 
 
         </style>
     </head>
     <body>
 
-      <span class="promptContainer">Users: <span class="users">#</span></span>
+      <!-- <span class="promptContainer">Users: <span class="users">#</span></span> -->
 
-      <div class="promptContainer">Prompt:
+      <div class="promptContainer">
         <div class="prompt">?</div>
       </div>
 
-      <div class="scoreContainer">This/That Score:
+      <!-- <div class="scoreContainer">This/That Score:
         <div class="score">#</div>
-      </div>
+      </div> -->
 
       <div class="messagesContainer">
         <!-- <h1>messages</h1> -->
@@ -67,8 +67,8 @@
         var promptContainer = document.querySelector('.promptContainer');
         var prompt = document.querySelector('.prompt');
 
-        var scoreContainer = document.querySelector('.scoreContainer');
-        var score = document.querySelector('.score');
+        // var scoreContainer = document.querySelector('.scoreContainer');
+        // var score = document.querySelector('.score');
         // var textForm = document.querySelector('.textForm');
         //
         // var noYesContainer = document.querySelector('.noYesContainer');
@@ -92,21 +92,24 @@
             post(data);
           }
           else if ( data.type == 'c') {
-            score.innerText = data.score;
+            post(data);
+            // score.innerText = data.score;
           }
         });
 
         socket.on('changeP', function (data) {
           // console.log(data);
           prompt.innerText = data.value + '?';
-          score.innerText = '[0, 0]';
+          // score.innerText = '[0, 0]';
           // changeInputMode(data);
 
           // show when prompt changes happened
-          let message = document.createElement('div');
-          message.className = 'message wordwrap blue';
-          message.innerHTML = data.value;
-          messages.appendChild(message);
+          // let message = document.createElement('div');
+          // message.className = 'message wordwrap blue';
+          // message.innerHTML = data.value;
+          // messages.insertBefore(message, messages.firstElementChild);
+
+
         });
 
         socket.on('promptInit', function (data) {
@@ -120,10 +123,12 @@
 
           // post message to container
           post = function (data) {
-            let message = document.createElement('div');
+            let message = document.createElement('span');
             message.className = 'message wordwrap';
             message.innerHTML = data.value;
-            messages.appendChild(message);
+            // messages.appendChild(message);
+
+            messages.insertBefore(message, messages.firstElementChild);
             // textarea.value = '';
             // textarea.rows = 1;
             //
@@ -134,10 +139,10 @@
           }
 
           // users
-          var users = document.querySelector('.users');
-          socket.on('users', function (data) {
-            users.textContent = data;
-          });
+          // var users = document.querySelector('.users');
+          // socket.on('users', function (data) {
+          //   users.textContent = data;
+          // });
 
         });
 

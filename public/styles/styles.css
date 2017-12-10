@@ -4,18 +4,26 @@
   --send-button-size: 2.5rem;
 }
 
+* {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 html {
   /*background: var(--user-color);*/
   font-size: 16px;
-  font-family: 'Roboto', sans-serif;
-  background: #4d4d4d;
+  /*font-family: 'Roboto', sans-serif;*/
+  font-family: 'ABeeZee', sans-serif;
+  background: #353535;
   -webkit-tap-highlight-color:transparent;
 }
 
 body {
   margin: 0;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  /*overflow-x: hidden;
+  overflow-y: hidden;*/
 }
 
 body::-webkit-scrollbar {
@@ -68,15 +76,36 @@ button {border:0; outline:none;}
 }
 
 .message {
-  background: var(--user-color);
-  color: #fff;
   padding: 0.5em;
-  margin: 0.5em 1em;
+  margin: 0.4em 1em;
+  background: #212121;
+  color: #ff8cc5;
+  display: table;
+  border-radius: 0.3em;
+  font-size: 1.5em;
+  text-shadow: 0 0px 8px #000000;
+  box-shadow: 0px 2px 20px -1px rgba(255, 105, 180, 0.7);
+  animation-fill-mode: forwards;
+  animation: zoom 500ms ease 1;
+}
+
+@keyframes zoom {
+  0%   {
+    height: 0px;
+    transform: scale(0);
+  }
+  100% {
+    height: 1em;
+    transform: scale(1);
+  }
 }
 
 .messagesContainer {
-  /*padding: 1em;*/
+  padding: 2em 0;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .messagesContainer::-webkit-scrollbar {
@@ -84,14 +113,15 @@ button {border:0; outline:none;}
 }
 
 form {
-  position: absolute;
+  /*position: absolute;*/
   display: flex;
   align-items: center;
   justify-content: space-between;
-  bottom: 0;
+  /*bottom: 0;*/
   /*top: calc(100vh - 56px);*/
   width: calc( 100% - 1rem );
-  margin: 0.5rem;
+  /*margin: 2em 0.5rem;*/
+  margin: 5em 0.5rem 0;
 }
 
 .textForm {
@@ -150,10 +180,20 @@ textarea:active, textarea:focus {
 }
 
 .promptContainer {
-  background: #353535;
+  background: #444444;
   color: hotpink;
   padding: 2rem;
   font-size: 2.5rem;
+  text-shadow: 0 0px 12px #e070a7;
+  border-radius: 0 0 50px 50px;
+  box-sizing: border-box;
+  border: 1px solid hotpink;
+  border-top: transparent;
+  box-shadow: 0px 3px 20px rgba(255, 105, 180, 0.7);
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .scoreContainer {
@@ -278,7 +318,14 @@ textarea:active, textarea:focus {
   text-align: center;
 }*/
 
+.ynButtonContainer {
+  display: flex;
+  justify-content: space-around;
+  margin: 2em 0;
+}
+
 .bYes {
+  width: 2em;
   background-size: 100%;
   text-align: center;
   background-image: radial-gradient(#f987c1, #D65695);
@@ -302,11 +349,12 @@ textarea:active, textarea:focus {
   cursor: pointer;
   font-size: 40px;
   display: inline-block;
-  padding: 0.75em 1.2em;
+  padding: 0.75em 11vw;
   position: relative;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin: 1em;
+  /*margin: 1em;*/
+  opacity: 1;
 }
 .bYes:before {
   -moz-border-radius: 3px;
@@ -342,6 +390,7 @@ textarea:active, textarea:focus {
 /* no button */
 
 .bNo {
+  width: 2em;
   background-size: 100%;
   text-align: center;
   background-image: radial-gradient(#fbfbfb, #c3c1c1);
@@ -365,11 +414,11 @@ textarea:active, textarea:focus {
   cursor: pointer;
   font-size: 40px;
   display: inline-block;
-  padding: 0.75em 1.2em;
+  padding: 0.75em 11vw;
   position: relative;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin: 1em;
+  /*margin: 1em;*/
   opacity: 1;
 }
 .bNo:before {

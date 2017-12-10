@@ -12,10 +12,11 @@
 
     <link rel="stylesheet" href="styles/styles.css"></style>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=ABeeZee" rel="stylesheet">
   </head>
   <body>
 
-    <div class="promptContainer none">
+    <div class="promptContainer">
       <div class="prompt">?</div>
     </div>
 
@@ -26,7 +27,7 @@
 
     <form class="textForm" action="" method="get">
       <div class="textarea-container">
-        <textarea class="newTA" autofocus name="inMess" placeholder="your answer" id="" rows="1"></textarea>
+        <textarea class="newTA" autofocus name="inMess" placeholder="your answer" maxlength="30" id="" rows="1"></textarea>
       </div>
       <button type="button" class="sendButton" disabled></button>
     </form>
@@ -38,7 +39,7 @@
       <button class="buttonThat" id="that">no</button>
     </div> -->
 
-    <div class="ynButtonContainer">
+    <div class="ynButtonContainer hidden">
       <div id="this" class="button bYes">YES</div>
       <div id="that" class="button bNo">NO</div>
     </div>
@@ -69,7 +70,8 @@
       var yesButton = document.querySelector('.buttonYes');
 
       // better solution
-      var ttButtonContainer = document.querySelector('.ttButtonContainer');
+      // var ttButtonContainer = document.querySelector('.ttButtonContainer');
+      var ynButtonContainer = document.querySelector('.ynButtonContainer');
       var thisButton = document.querySelector('.buttonThis');
       var thatButton = document.querySelector('.buttonThat');
 
@@ -260,7 +262,8 @@
           if ( data.type == 'tt' ) {
             textForm.style.visibility = 'hidden';
             // ttButtonContainer.style.visibility = 'visible';
-            promptContainer.classList.add('none');
+            ynButtonContainer.style.visibility = 'visible';
+            // promptContainer.classList.add('none');
 
 
             // change the button options
@@ -277,7 +280,9 @@
           }
           else if ( data.type == 'q' ) {
             textForm.style.visibility = 'visible';
-            ttButtonContainer.style.visibility = 'hidden';
+            // ttButtonContainer.style.visibility = 'hidden';
+            ynButtonContainer.style.visibility = 'hidden';
+
             promptContainer.classList.remove('none');
           }
           else {

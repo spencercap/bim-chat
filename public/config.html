@@ -69,8 +69,12 @@
         </div>
       <hr>
 
-      <h1>This/That</h1>
+      <h1>Yes/No Prompts</h1>
         <ul class="ttContainer">
+          <input type="radio" name="tt" value="do you fear death">do you fear death</input><br>
+          <input type="radio" name="tt" value="this is a yes no prompt">this is a yes no prompt</input><br>
+
+
           <input type="radio" name="tt" value="ready or not">ready or not</input><br>
           <input type="radio" name="tt" value="yes or no">yes or no</input><br>
           <input type="radio" name="tt" value="red or blue">red or blue<br>
@@ -90,8 +94,8 @@
 
       <h1>Fake OSC Responses</h1>
         <ul class="fakeOSCttContainer">This/Thats:
-          <button id="this" onclick="OSCbuttonTTPress(this);">hello</button>
-          <button id="that" onclick="OSCbuttonTTPress(this);">world</button>
+          <button id="this" onclick="OSCbuttonTTPress(this);">YES</button>
+          <button id="that" onclick="OSCbuttonTTPress(this);">NO</button>
         </ul>
 
 
