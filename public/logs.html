@@ -68,6 +68,8 @@
         // flash
         var flash = document.querySelector('.flash');
 
+        var inputMode = true;
+
 
         // var scoreContainer = document.querySelector('.scoreContainer');
         // var score = document.querySelector('.score');
@@ -105,6 +107,17 @@
           messages.innerHTML = '';
 
           flash.classList.add('flashAnim');
+
+          // toggle between only accepting tt or q
+          if (data.type == 'tt') {
+            inputMode = true;
+          }
+          else if (data.type == 'q') {
+            inputMode = false;
+          }
+          else {
+            console.log('bad type from changed prompt');
+          }
           // score.innerText = '[0, 0]';
           // changeInputMode(data);
 
@@ -119,7 +132,7 @@
 
         socket.on('promptInit', function (data) {
           // console.log(data);
-          prompt.innerText = data.value + '?';
+          // prompt.innerText = data.value + '?';
           // changeInputMode(data);
         });
 
@@ -128,12 +141,48 @@
 
           // post message to container
           post = function (data) {
-            let message = document.createElement('span');
-            message.className = 'message wordwrap';
-            message.innerHTML = data.value;
-            // messages.appendChild(message);
 
-            messages.insertBefore(message, messages.firstElementChild);
+            if (inputMode == true && data.type == 'c') {
+
+              // TODO
+              if (data.value == 'YES') {
+                let message = document.createElement('span');
+                message.className = 'message wordwrap';
+                message.innerHTML = 'YES';
+                messages.insertBefore(message, messages.firstElementChild);
+              }
+              else if (data.value == 'NO') {
+                let message = document.createElement('span');
+                message.className = 'message wordwrap';
+                message.innerHTML = 'NO';
+                messages.insertBefore(message, messages.firstElementChild);
+              }
+
+            }
+            else if (inputMode == false && data.type == 'q') {
+
+              // TODO oops i broke it. cannot send in a string
+
+              // dont validate for sending yes/no's during the message time, that's fine...
+              // TODO should really do validation on the server side
+              let message = document.createElement('span');
+              message.className = 'message wordwrap';
+              message.innerHTML = data.value;
+              // messages.appendChild(message);
+
+              messages.insertBefore(message, messages.firstElementChild);
+            }
+            else {
+              // TODO i keep getting here... by mistake 
+              console.log('nothing posted because wrong data type for current prompt');
+            }
+
+            // let message = document.createElement('span');
+            // message.className = 'message wordwrap';
+            // message.innerHTML = data.value;
+            // // messages.appendChild(message);
+            //
+            // messages.insertBefore(message, messages.firstElementChild);
             // textarea.value = '';
             // textarea.rows = 1;
             //

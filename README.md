@@ -6,14 +6,15 @@ this webapp uses express as a node server
 
 real-time chat communication between users is powered by socket.io
 
-the server converts socket.io messages into OSC messages, which can be picked up by Unreal Engine or Max MSP for example.
+the 2nd server converts socket.io messages into OSC messages in node, which can be picked up by Unreal Engine or Max MSP for example.
 
 ## Prerequisites
 
 * node.js
 * express
 * socket.io
-* [web-osc](https://github.com/automata/osc-web)
+* [node-osc](https://github.com/MylesBorins/node-osc)
+* [web-osc](https://github.com/automata/osc-web) was using
 
 ## Install
 
@@ -26,15 +27,15 @@ npm i
 ```
 node client-server.js
 ```
-( automatically connects to heroku server )
+( connects to heroku server )
+
+```
+node client-server-local.js
+```
+( connects to localhost server )
 
 ## Run Server Locally
 
 ```
 npm start
-```
-( need to swap line 11 & 12, one or other )
-```
-var ioClient = ioc.connect('https://bim-chat.herokuapp.com'); // don't need a port for heroku!! / online servers
-// var ioClient = ioc.connect('http://localhost:' + ioPort ); // for local testing
 ```
